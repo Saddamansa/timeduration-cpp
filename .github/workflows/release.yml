@@ -23,7 +23,7 @@ jobs:
         run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Install project to versioned dist/
-        run: cmake --install build --prefix dist/timeduration-cpp-${{ github.ref_name }}
+        run: cmake --install build --config Release --prefix dist/timeduration-cpp-${{ github.ref_name }}
 
       - name: Copy README and LICENSE
         run: |
