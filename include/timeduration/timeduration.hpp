@@ -4,7 +4,6 @@
 #include <chrono>
 #include <map>
 #include <string>
-#include <format>
 
 namespace timeduration {
 
@@ -60,13 +59,13 @@ public:
         }
 
         void AddValue(const std::string_view Literal, const int64_t Value) {
-            if (m_Tokens.contains(Literal.data()))
-                AddValue(m_Tokens[Literal.data()], Value);
+            if (const auto TokIt = m_Tokens.find(Literal.data()); TokIt != m_Tokens.end())
+                AddValue(TokIt->second, Value);
         }
 
         void AddValue(int64_t Multiplier, int64_t Value) {
-            if (m_Result.contains(Multiplier))
-                m_Result[Multiplier] += Value;
+            if (const auto ResIt = m_Result.find(Multiplier); ResIt != m_Result.end())
+                ResIt->second += Value;
             else
                 m_Result.emplace(Multiplier, Value);
         }
@@ -86,6 +85,8 @@ public:
     };
 
 private:
+    typedef std::chrono::duration<int64_t, std::ratio_multiply<std::ratio<24>, std::chrono::hours::period>> chrono_day; // added in C++20
+
     std::chrono::seconds m_TotalDuration{0};
     int64_t m_Days{0};
     int64_t m_Hours{0};
@@ -120,7 +121,7 @@ public:
         m_TotalDuration = std::chrono::seconds{seconds} +
                           std::chrono::minutes{minutes} +
                           std::chrono::hours{hours} +
-                          std::chrono::days{days};
+                          chrono_day{days};
         Validate();
     }
 
@@ -162,7 +163,8 @@ public:
                              {"y", 31536000L}, {"years", 31536000L},
                          });
 
-        for (auto Result = Scanner.ScanTokens(); auto [Multiplier, Value]: Result)
+        auto Result = Scanner.ScanTokens();
+        for (auto [Multiplier, Value]: Result)
             TotalDuration += std::chrono::seconds(Multiplier * Value);
 
         return TotalDuration;
@@ -184,7 +186,7 @@ public:
      * @return std::string SQL compatible interval string
      */
     [[nodiscard]] std::string asSqlInterval() const {
-        return std::format("interval {} second", m_TotalDuration.count());
+        return "interval " + std::to_string(m_TotalDuration.count()) + " second";
     }
 
     [[nodiscard]] constexpr std::chrono::seconds duration() const noexcept { return m_TotalDuration; }
@@ -200,10 +202,10 @@ public:
      */
     [[nodiscard]] std::string toString() const {
         std::string result;
-        if (m_Days > 0) result += std::format("{}d ", m_Days);
-        if (m_Hours > 0) result += std::format("{}h ", m_Hours);
-        if (m_Minutes > 0) result += std::format("{}m ", m_Minutes);
-        if (m_Seconds > 0 || result.empty()) result += std::format("{}s", m_Seconds);
+        if (m_Days > 0) result += std::to_string(m_Days) + "d ";
+        if (m_Hours > 0) result += std::to_string(m_Hours) + "h ";
+        if (m_Minutes > 0) result += std::to_string(m_Minutes) + "m ";
+        if (m_Seconds > 0 || result.empty()) result += std::to_string(m_Seconds) + "s";
         return result;
     }
 
@@ -216,7 +218,37 @@ public:
         return m_TotalDuration.count() == 0;
     }
 
-    auto operator<=>(const CTimePeriod &) const = default;
+    // Comparison operators
+
+    friend bool operator==(const CTimePeriod& Lhs, const CTimePeriod& Rhs)
+    {
+        return Lhs.m_TotalDuration == Rhs.m_TotalDuration;
+    }
+
+    friend bool operator!=(const CTimePeriod& Lhs, const CTimePeriod& Rhs)
+    {
+        return !(Lhs == Rhs);
+    }
+
+    friend bool operator<(const CTimePeriod& Lhs, const CTimePeriod& Rhs)
+    {
+        return Lhs.m_TotalDuration < Rhs.m_TotalDuration;
+    }
+
+    friend bool operator<=(const CTimePeriod& Lhs, const CTimePeriod& Rhs)
+    {
+        return Lhs.m_TotalDuration <= Rhs.m_TotalDuration;
+    }
+
+    friend bool operator>(const CTimePeriod& Lhs, const CTimePeriod& Rhs)
+    {
+        return Lhs.m_TotalDuration > Rhs.m_TotalDuration;
+    }
+
+    friend bool operator>=(const CTimePeriod& Lhs, const CTimePeriod& Rhs)
+    {
+        return Lhs.m_TotalDuration >= Rhs.m_TotalDuration;
+    }
 };
 
 } // namespace timeduration

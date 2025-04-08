@@ -1,6 +1,6 @@
 # timeduration-cpp
 
-A lightweight C++20 library for parsing time duration strings into chrono durations.
+A lightweight C++17 library for parsing time duration strings into chrono durations.
 
 ## Features
 
@@ -12,8 +12,8 @@ A lightweight C++20 library for parsing time duration strings into chrono durati
 
 ## Requirements
 
-* C++20 compatible compiler (for format, ranges, and concepts)
-* CMake 3.14 or higher (for building and installation)
+* C++17 compatible compiler
+* CMake 3.14 or higher
 
 ## Installation
 
