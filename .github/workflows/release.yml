@@ -1,0 +1,46 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up CMake, Ninja, and compiler
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build g++
+
+      - name: Configure project (Release)
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Install project to versioned dist/
+        run: cmake --install build --prefix dist/timeduration-cpp-${{ github.ref_name }}
+
+      - name: Copy README and LICENSE
+        run: |
+          cp README.md LICENSE dist/timeduration-cpp-${{ github.ref_name }}/
+
+      - name: Create zip archive
+        run: |
+          cd dist
+          zip -r ../timeduration-cpp-${{ github.ref_name }}.zip timeduration-cpp-${{ github.ref_name }}
+
+      - name: Generate SHA256 checksum
+        run: sha256sum timeduration-cpp-${{ github.ref_name }}.zip > SHA256_checksum.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ github.ref_name }}
+          files: |
+            timeduration-cpp-${{ github.ref_name }}.zip
+            SHA256_checksum.txt
+            include/timeduration/timeduration.hpp
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
